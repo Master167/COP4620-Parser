@@ -4,31 +4,31 @@ NOTE: For use here, all non-terminals and keywords are lower case
 */
 
 program 			-> 	declaration-list
-declaration-list	->	declaration-list declaration | declaration
+declaration-list	->	declaration-list declaration | declaration							// Left-Recursion
 declaration			->	var-declaration | fun-declaration
-var-declaration		-> 	type-specifier ID ; | typecifier ID [ NUM ] ;
-type-sepecifier		->	INT | FLOAT | VOID
+var-declaration		-> 	type-specifier ID ; | type-specifier ID [ NUM ] ;					// Left-Factoring
+type-specifier		->	INT | FLOAT | VOID
 fun-declaration		->	type-specifier ID ( params ) compound-stmt
-params				->	params-list | VOID
-param-list			->	param-list , param | param
-param				->	type-specifier ID | type-specifier ID [ ]
+params				->	param-list | VOID
+param-list			->	param-list , param | param											// Left-Recursion
+param				->	type-specifier ID | type-specifier ID [ ]							// Left-Factoring
 compound-stmt		->	{ local-declarations statement-list }
-local-declarations	->	local-declarations var declaration | empty
-statement-list		->	statement-list statement | empty
-statement			->	expression-stmt | compiunt-stmt | selection-stmt | iteration-stmt | return-stmt
+local-declarations	->	local-declarations var declaration | empty							// Left-Recursion
+statement-list		->	statement-list statement | empty									// Left-Recursion
+statement			->	expression-stmt | compound-stmt | selection-stmt | iteration-stmt | return-stmt
 expression-stmt		->	expression ; | ;
 selection-stmt		->	IF ( expression ) statement | IF ( expression ) ELSE statement
 iteration-stmt		->	WHILE ( expression ) statement
 return-stmt			->	RETURN ; | RETURN expression ;
 expression			->	var = expression | simple-expression
 var					->	ID | ID [ expression ]
-simple-expression	->	additive-expression relop additive-expression | additive-expression
+simple-expression	->	additive-expression relop additive-expression | additive-expression	// Left-Factoring
 relop				->	<= | < | > | >= | == | !=
-additive-expression ->	additive-expression addop term | term
+additive-expression ->	additive-expression addop term | term 								// Left-Recursion
 addop				->	+ | -
-term				->	term mulop factor | factor
+term				->	term mulop factor | factor 											// Left-Recursion
 mulop				->	* | /
 factor				->	( expression ) | var | call | NUM
 call				->	ID ( args )
 args				->	arg-list | empty
-arg-list			-> arg-list , expression | expression
+arg-list			->	arg-list , expression | expression									// Left-Recursion
