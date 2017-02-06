@@ -1,0 +1,34 @@
+/**
+NOTE: For use here, all non-terminals and keywords are lower case
+	and { ... } indicate a Regular expression
+*/
+
+program 			-> 	declaration-list
+declaration-list	->	declaration-list declaration | declaration
+declaration			->	var-declaration | fun-declaration
+var-declaration		-> 	type-specifier ID ; | typecifier ID [ NUM ] ;
+type-sepecifier		->	INT | FLOAT | VOID
+fun-declaration		->	type-specifier ID ( params ) compound-stmt
+params				->	params-list | VOID
+param-list			->	param-list , param | param
+param				->	type-specifier ID | type-specifier ID [ ]
+compound-stmt		->	{ local-declarations statement-list }
+local-declarations	->	local-declarations var declaration | empty
+statement-list		->	statement-list statement | empty
+statement			->	expression-stmt | compiunt-stmt | selection-stmt | iteration-stmt | return-stmt
+expression-stmt		->	expression ; | ;
+selection-stmt		->	IF ( expression ) statement | IF ( expression ) ELSE statement
+iteration-stmt		->	WHILE ( expression ) statement
+return-stmt			->	RETURN ; | RETURN expression ;
+expression			->	var = expression | simple-expression
+var					->	ID | ID [ expression ]
+simple-expression	->	additive-expression relop additive-expression | additive-expression
+relop				->	<= | < | > | >= | == | !=
+additive-expression ->	additive-expression addop term | term
+addop				->	+ | -
+term				->	term mulop factor | factor
+mulop				->	* | /
+factor				->	( expression ) | var | call | NUM
+call				->	ID ( args )
+args				->	arg-list | empty
+arg-list			-> arg-list , expression | expression
