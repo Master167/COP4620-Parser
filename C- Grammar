@@ -1,6 +1,5 @@
 /**
-NOTE: For use here, all non-terminals and keywords are lower case
-	and { ... } indicate a Regular expression
+NOTE: For use here, all non-terminals lower case
 */
 
 program 			-> 	declaration-list
@@ -13,11 +12,11 @@ params				->	param-list | VOID
 param-list			->	param-list , param | param											// Left-Recursion
 param				->	type-specifier ID | type-specifier ID [ ]							// Left-Factoring
 compound-stmt		->	{ local-declarations statement-list }
-local-declarations	->	local-declarations var declaration | empty							// Left-Recursion
+local-declarations	->	local-declarations var-declaration | empty							// Left-Recursion
 statement-list		->	statement-list statement | empty									// Left-Recursion
 statement			->	expression-stmt | compound-stmt | selection-stmt | iteration-stmt | return-stmt
 expression-stmt		->	expression ; | ;
-selection-stmt		->	IF ( expression ) statement | IF ( expression ) ELSE statement
+selection-stmt		->	IF ( expression ) statement | IF ( expression ) statement ELSE statement
 iteration-stmt		->	WHILE ( expression ) statement
 return-stmt			->	RETURN ; | RETURN expression ;
 expression			->	var = expression | simple-expression
