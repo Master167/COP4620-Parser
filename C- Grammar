@@ -1,5 +1,9 @@
 /**
 NOTE: For use here, all non-terminals lower case
+
+Left-Recursion Fix:
+A	-> Aa | b		=>	A	-> bA'
+						A'	-> aA' | empty
 */
 
 program 			-> 	declaration-list
