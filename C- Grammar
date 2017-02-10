@@ -3,19 +3,23 @@ NOTE: For use here, all non-terminals lower case
 */
 
 program 			-> 	declaration-list
-declaration-list	->	declaration-list declaration | declaration							// Left-Recursion
+declaration-list		->	declaration declaration-list-prime
+declaration-list-prime	->	declaration declaration-list-prime | empty
 declaration			->	var-declaration | fun-declaration
 var-declaration		-> 	type-specifier ID id-specifier
 id-specifier		->	; | [ NUM ] ;
 type-specifier		->	INT | FLOAT | VOID
 fun-declaration		->	type-specifier ID ( params ) compound-stmt
 params				->	param-list | VOID
-param-list			->	param-list , param | param											// Left-Recursion
+param-list				->	param param-list-prime
+param-list-prime		->  , param param-list-prime | empty
 param				->	type-specifier ID array
 array				->	[ ] | empty
 compound-stmt		->	{ local-declarations statement-list }
-local-declarations	->	local-declarations var-declaration | empty							// Left-Recursion
-statement-list		->	statement-list statement | empty									// Left-Recursion
+local-declarations		->	local-declaration-prime
+local-declaration-prime	->	var-declaration local-declaration-prime | empty
+statement-list		->	statement-list-prime
+statement-list-prime	-> statement statement-list-prime | empty
 statement			->	expression-stmt | compound-stmt | selection-stmt | iteration-stmt | return-stmt
 expression-stmt		->	expression ; | ;
 selection-stmt		->	IF ( expression ) statement | IF ( expression ) statement ELSE statement
@@ -26,11 +30,14 @@ var					->	ID | ID [ expression ]
 simple-expression	->	additive-expression relop-expression
 relop-expression	->	relop additive-expression | empty
 relop				->	<= | < | > | >= | == | !=
-additive-expression ->	additive-expression addop term | term 								// Left-Recursion
+additive-expression ->	term additive-expression-prime
+additive-expression-prime -> addop term additive-expression-prime | empty
 addop				->	+ | -
-term				->	term mulop factor | factor 											// Left-Recursion
+term				->	factor term-prime
+term-prime			->	term mulop term-prime | empty
 mulop				->	* | /
 factor				->	( expression ) | var | call | NUM
 call				->	ID ( args )
 args				->	arg-list | empty
-arg-list			->	arg-list , expression | expression									// Left-Recursion
+arg-list			->	expression arg-list-prime
+arg-list-prime		->	, expression arg-list-prime | empty
