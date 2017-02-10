@@ -5,12 +5,14 @@ NOTE: For use here, all non-terminals lower case
 program 			-> 	declaration-list
 declaration-list	->	declaration-list declaration | declaration							// Left-Recursion
 declaration			->	var-declaration | fun-declaration
-var-declaration		-> 	type-specifier ID ; | type-specifier ID [ NUM ] ;					// Left-Factoring
+var-declaration		-> 	type-specifier ID id-specifier
+id-specifier		->	; | [ NUM ] ;
 type-specifier		->	INT | FLOAT | VOID
 fun-declaration		->	type-specifier ID ( params ) compound-stmt
 params				->	param-list | VOID
 param-list			->	param-list , param | param											// Left-Recursion
-param				->	type-specifier ID | type-specifier ID [ ]							// Left-Factoring
+param				->	type-specifier ID array
+array				->	[ ] | empty
 compound-stmt		->	{ local-declarations statement-list }
 local-declarations	->	local-declarations var-declaration | empty							// Left-Recursion
 statement-list		->	statement-list statement | empty									// Left-Recursion
@@ -21,7 +23,8 @@ iteration-stmt		->	WHILE ( expression ) statement
 return-stmt			->	RETURN ; | RETURN expression ;
 expression			->	var = expression | simple-expression
 var					->	ID | ID [ expression ]
-simple-expression	->	additive-expression relop additive-expression | additive-expression	// Left-Factoring
+simple-expression	->	additive-expression relop-expression
+relop-expression	->	relop additive-expression | empty
 relop				->	<= | < | > | >= | == | !=
 additive-expression ->	additive-expression addop term | term 								// Left-Recursion
 addop				->	+ | -
