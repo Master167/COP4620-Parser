@@ -9,11 +9,9 @@ A	-> Aa | b		=>	A	-> bA'
 program 					-> 	declaration-list
 declaration-list			->	declaration declaration-list-prime
 declaration-list-prime		->	declaration declaration-list-prime | empty
-declaration					->	var-declaration | fun-declaration	// Potential Left-Factoring
-var-declaration				-> 	type-specifier ID id-specifier
-id-specifier				->	; | [ NUM ] ;
+declaration					->	type-specifier ID id-specifier
+id-specifier				->	; | [ NUM ] ; | ( params ) compound-stmt
 type-specifier				->	INT | FLOAT | VOID
-fun-declaration				->	type-specifier ID ( params ) compound-stmt
 params						->	param-list | VOID
 param-list					->	param param-list-prime
 param-list-prime			->  , param param-list-prime | empty
@@ -23,7 +21,7 @@ compound-stmt				->	{ local-declarations statement-list }
 local-declarations			->	local-declaration-prime
 local-declaration-prime		->	var-declaration local-declaration-prime | empty
 statement-list				->	statement-list-prime
-statement-list-prime		-> statement statement-list-prime | empty
+statement-list-prime		->	statement statement-list-prime | empty
 statement					->	expression-stmt | compound-stmt | selection-stmt | iteration-stmt | return-stmt
 expression-stmt				->	expression ; | ;
 selection-stmt				->	IF ( expression ) statement | IF ( expression ) statement ELSE statement
@@ -35,7 +33,7 @@ simple-expression			->	additive-expression relop-expression
 relop-expression			->	relop additive-expression | empty
 relop						->	<= | < | > | >= | == | !=
 additive-expression 		->	term additive-expression-prime
-additive-expression-prime	-> addop term additive-expression-prime | empty
+additive-expression-prime	->	addop term additive-expression-prime | empty
 addop						->	+ | -
 term						->	factor term-prime
 term-prime					->	term mulop term-prime | empty
