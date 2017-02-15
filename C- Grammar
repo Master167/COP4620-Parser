@@ -9,7 +9,7 @@ A	-> Aa | b		=>	A	-> bA'
 program 					-> 	declaration-list
 declaration-list			->	declaration declaration-list-prime
 declaration-list-prime		->	declaration declaration-list-prime | empty
-declaration					->	var-declaration | fun-declaration
+declaration					->	var-declaration | fun-declaration	// Potential Left-Factoring
 var-declaration				-> 	type-specifier ID id-specifier
 id-specifier				->	; | [ NUM ] ;
 type-specifier				->	INT | FLOAT | VOID
