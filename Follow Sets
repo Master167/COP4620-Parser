@@ -3,6 +3,7 @@ program:
 declaration-list:	 
 declaration-list-prime:	 
 declaration:	 
+call-declaration	 
 id-specifier:	 
 type-specifier:	 
 params:	 
