@@ -13,7 +13,7 @@ declaration					->	type-specifier ID call-declaration
 call-declaration			->	id-specifier | ( params ) compound-stmt
 id-specifier				->	; | [ NUM ] ;
 type-specifier				->	INT | FLOAT | VOID
-params						->	param-list | VOID
+params						->	param-list | VOID // Has VOID on both sides
 param-list					->	param param-list-prime
 param-list-prime			->	, param param-list-prime | empty
 param						->	type-specifier ID array
@@ -25,11 +25,11 @@ statement-list				->	statement-list-prime
 statement-list-prime		->	statement statement-list-prime | empty
 statement					->	expression-stmt | compound-stmt | selection-stmt | iteration-stmt | return-stmt
 expression-stmt				->	expression ; | ;
-selection-stmt				->	IF ( expression ) statement | IF ( expression ) statement ELSE statement
+selection-stmt				->	IF ( expression ) statement | IF ( expression ) statement ELSE statement // Left-Factoring problem
 iteration-stmt				->	WHILE ( expression ) statement
 return-stmt					->	RETURN ; | RETURN expression ;
-expression					->	var = expression | simple-expression
-var							->	ID | ID [ expression ]
+expression					->	var = expression | simple-expression	// Has ID on both sides
+var							->	ID | ID [ expression ]	// Left-Factoring problem
 simple-expression			->	additive-expression relop-expression
 relop-expression			->	relop additive-expression | empty
 relop						->	<= | < | > | >= | == | !=
@@ -39,7 +39,7 @@ addop						->	+ | -
 term						->	factor term-prime
 term-prime					->	term mulop term-prime | empty
 mulop						->	* | /
-factor						->	( expression ) | var | call | NUM
+factor						->	( expression ) | var | call | NUM	// var and call have ID in their first sets
 call						->	ID ( args )
 args						->	arg-list | empty
 arg-list					->	expression arg-list-prime
