@@ -25,11 +25,13 @@ statement-list				->	statement-list-prime
 statement-list-prime		->	statement statement-list-prime | empty
 statement					->	expression-stmt | compound-stmt | selection-stmt | iteration-stmt | return-stmt
 expression-stmt				->	expression ; | ;
-selection-stmt				->	IF ( expression ) statement | IF ( expression ) statement ELSE statement // Left-Factoring problem
+selection-stmt				->	IF ( expression ) statement dangling-else
+dangling-else				->	ELSE statement | empty
 iteration-stmt				->	WHILE ( expression ) statement
 return-stmt					->	RETURN ; | RETURN expression ;
 expression					->	var = expression | simple-expression	// Has ID on both sides
-var							->	ID | ID [ expression ]	// Left-Factoring problem
+var							->	ID var-array
+var-array					->	[ expression ] | empty
 simple-expression			->	additive-expression relop-expression
 relop-expression			->	relop additive-expression | empty
 relop						->	<= | < | > | >= | == | !=
