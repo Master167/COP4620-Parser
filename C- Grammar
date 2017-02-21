@@ -13,8 +13,8 @@ declaration					->	type-specifier ID call-declaration
 call-declaration			->	id-specifier | ( params ) compound-stmt
 id-specifier				->	; | [ NUM ] ;
 type-specifier				->	INT | FLOAT | VOID
-params						->	param-list | VOID	// Has VOID on both sides, Code Around it 
-param-list					->	param param-list-prime
+params						->	INT ID array param-list-prime | FLOAT ID array param-list-prime | VOID param-list
+param-list					->	ID array param-list-prime | empty // I decided to keep the name because naming things is hard.
 param-list-prime			->	, param param-list-prime | empty
 param						->	type-specifier ID array
 array						->	[ ] | empty
@@ -29,18 +29,17 @@ selection-stmt				->	IF ( expression ) statement dangling-else
 dangling-else				->	ELSE statement | empty
 iteration-stmt				->	WHILE ( expression ) statement
 return-stmt					->	RETURN ; | RETURN expression ;
-expression					->	ID var-array = expression | simple-expression	// Has ID on both sides, Code Around it 
+expression					->	ID variable | ( expression ) term-prime additive-expression-prime relop-expression | NUM term-prime additive-expression-prime relop-expression
+variable					->	var-array = expression | var-call term-prime additive-expression-prime relop-expression
 var-array					->	[ expression ] | empty
-simple-expression			->	additive-expression relop-expression
 relop-expression			->	relop additive-expression | empty
 relop						->	<= | < | > | >= | == | !=
-additive-expression 		->	term additive-expression-prime
+additive-expression 		->	( expression ) term-prime additive-expression-prime | ID var-call term-prime additive-expression-prime | NUM term-prime additive-expression-prime
 additive-expression-prime	->	addop term additive-expression-prime | empty
 addop						->	+ | -
-term						->	factor term-prime
+term						->	( expression ) term-prime | ID var-call term-prime | NUM term-prime
 term-prime					->	term mulop term-prime | empty
 mulop						->	* | /
-factor						->	( expression ) | ID var-call | NUM
 var-call					->	( args ) | var-array
 args						->	arg-list | empty
 arg-list					->	expression arg-list-prime
