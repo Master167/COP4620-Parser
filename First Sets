@@ -1,40 +1,40 @@
 -----	First	-----
-program:	 
-declaration-list:	 
-declaration-list-prime:	 
-declaration:	 
-call-declaration:	 
-id-specifier:	 
-type-specifier:	 
-params:	 
-param-list:	 
-param-list-prime:	 
-param:	 
-array:	 
-compound-stmt:	 
-local-declarations:	 
-local-declaration-prime:	 
-statement-list:	 
-statement-list-prime:	 
-statement:	 
-expression-stmt:	 
-selection-stmt:	 
-dangling-else:	 
-iteration-stmt:	 
-return-stmt:	 
-expression:	 
-var-array:	 
-simple-expression:	 
-relop-expression:	 
-relop:	 
-additive-expression:	 
-additive-expression-prime:	 
-addop:	 
-term:	 
-term-prime:	 
-mulop:	 
-factor:	 
-var-call:	( 
-args:	 
-arg-list:	 
+program:	INT FLOAT VOID
+declaration-list:	INT FLOAT VOID
+declaration-list-prime:	INT FLOAT VOID empty
+declaration:	INT FLOAT VOID
+call-declaration:	; [ (
+id-specifier:	; [
+type-specifier:	INT FLOAT VOID
+params:	INT FLOAT VOID
+param-list:	ID empty
+param-list-prime:	, empty
+param:	INT FLOAT VOID
+array:	[ empty
+compound-stmt:	{
+local-declarations:	INT FLOAT VOID empty
+local-declaration-prime:	INT FLOAT VOID empty
+statement-list:	ID ( NUM ; { IF WHILE RETURN empty
+statement-list-prime:	ID ( NUM ; { IF WHILE RETURN empty
+statement:	ID ( NUM ; { IF WHILE RETURN
+expression-stmt:	ID ( NUM ;
+selection-stmt:	IF
+dangling-else:	ELSE
+iteration-stmt:	WHILE
+return-stmt:	RETURN
+return-stmt-end:	; ID ( NUM
+expression:	ID ( NUM
+variable:	[ = ( ID NUM <= < > >= == != empty
+var-array:	[ empty
+relop-expression:	<= < > >= == != empty
+relop:	<= < > >= == !=
+additive-expression:	( ID NUM
+additive-expression-prime:	+ - empty
+addop:	+ -
+term:	( ID NUM
+term-prime:	( ID NUM empty
+mulop:	* /
+var-call:	( [ empty
+args:	ID ( NUM empty
+arg-list:	ID ( NUM
 arg-list-prime:	, empty

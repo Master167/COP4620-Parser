@@ -22,9 +22,10 @@ selection-stmt:
 dangling-else:	 
 iteration-stmt:	 
 return-stmt:	 
+return-stmt-end:	 
 expression:	 
+variable:	 
 var-array:	 
-simple-expression:	 
 relop-expression:	 
 relop:	 
 additive-expression:	 
@@ -33,7 +34,6 @@ addop:
 term:	 
 term-prime:	 
 mulop:	 
-factor:	 
 var-call:	 
 args:	 
 arg-list:	 
