@@ -31,7 +31,8 @@ iteration-stmt				->	WHILE ( expression ) statement
 return-stmt					->	RETURN return-stmt-end
 return-stmt-end				->	; | expression ;
 expression					->	ID variable | ( expression ) term-prime additive-expression-prime relop-expression | NUM term-prime additive-expression-prime relop-expression
-variable					->	var-array = expression | [ expression ] term-prime additive-expression-prime relop-expression |  term-prime additive-expression-prime relop-expression
+variable					->	var-array variable-factor | ( args ) term-prime additive-expression-prime relop-expression
+variable-factor				->	= expression |  term-prime additive-expression-prime relop-expression
 var-array					->	[ expression ] | empty
 relop-expression			->	relop additive-expression | empty
 relop						->	<= | < | > | >= | == | !=
