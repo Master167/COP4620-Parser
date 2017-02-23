@@ -1,41 +1,43 @@
 -----	Follow	-----
-program:	 
+program:	$ 
 declaration-list:	 
 declaration-list-prime:	 
-declaration:	 
+declaration:	INT FLOAT VOID 
 call-declaration:	 
-id-specifier:	 
-type-specifier:	 
-params:	 
+id-specifier:	INT FLOAT VOID 
+type-specifier:	ID 
+params:	) 
 param-list:	 
 param-list-prime:	 
-param:	 
-array:	 
+param:	, 
+array:	, 
 compound-stmt:	 
-local-declarations:	 
+local-declarations:	ID ( NUM ; { IF WHILE RETURN 
 local-declaration-prime:	 
-statement-list:	 
+statement-list:	} 
 statement-list-prime:	 
-statement:	 
+statement:	ID ( NUM ; { IF WHILE RETURN ELSE 
 expression-stmt:	 
 selection-stmt:	 
 dangling-else:	 
 iteration-stmt:	 
 return-stmt:	 
 return-stmt-end:	 
-expression:	 
+expression:	; ) ] ,
 variable:	 
 variable-factor:	 
-var-array:	 
+var-array:	= ( ID NUM + - <= < > >= == != 
 relop-expression:	 
-relop:	 
+relop:	( ID NUM 
 additive-expression:	 
-additive-expression-prime:	 
-addop:	 
-term:	 
-term-prime:	 
-mulop:	 
-var-call:	 
-args:	 
+additive-expression-prime:	<= < > >= == != 
+addop:	( ID NUM 
+term:	+ - * / 
+term-prime:	<= < > >= == != + - 
+mulop:	( ID NUM 
+var-call:	+ - ( ID NUM 
+args:	) 
 arg-list:	 
 arg-list-prime:	 
+
+// Ok you've done the First in Follows
