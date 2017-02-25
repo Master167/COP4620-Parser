@@ -8,6 +8,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/GitHub/COP4620-Parser/Parser/main.cpp</file>
+            <file>file:/D:/GitHub/COP4620-Parser/Parser/Parser.cpp</file>
+            <file>file:/D:/GitHub/COP4620-Parser/Parser/Parser.h</file>
             <file>file:/D:/GitHub/COP4620-Parser/Parser/SymbolTable.h</file>
             <file>file:/D:/GitHub/COP4620-Parser/Parser/LexicalAnalyzer.h</file>
             <file>file:/D:/GitHub/COP4620-Parser/Parser/Symbol.h</file>

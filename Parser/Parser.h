@@ -22,10 +22,56 @@ public:
     Parser(std::fstream& inputFile);
     bool parseFile();
 private:
+    // Class Variables
     std::string currentToken;
     std::fstream& filestream;
-    
+    // Class Methods
     bool getNextToken();
+    bool acceptToken(std::string token);
+    void throwBadAcceptToken(std::string badToken, std::string expectedToken);
+    
+    // Grammar Methods
+    void program();
+    void declarationList();
+    void declarationListPrime();
+    void declaration();
+    void callDeclaration();
+    void idSpecifier();
+    void typeSpecifier();
+    void params();
+    void paramList();
+    void paramListPrime();
+    void param();
+    void array();
+    void compountStmt();
+    void localDeclarations();
+    void localDeclarationsPrime();
+    void statementList();
+    void statementListPrime();
+    void statement();
+    void expressionStmt();
+    void selectionStmt();
+    void danglingElse();
+    void iterationStmt();
+    void returnStmt();
+    void returnStmtEnd();
+    void expression();
+    void variable();
+    void variableFactor();
+    void varArray();
+    void relopExpression();
+    void relop();
+    void additiveExpression();
+    void additiveExpressionPrime();
+    void addop();
+    void term();
+    void termPrime();
+    void mulop();
+    void varCall();
+    void args();
+    void argList();
+    void argListPrime();
+
 };
 
 #endif /* PARSER_H */
