@@ -202,11 +202,11 @@ bool LexicalAnalyzer::analyzeDigit() {
     }
     else if (number.length() > 0) {
         if (isFloat) {
-            std::cout << "FLOAT: " << number << std::endl;
+            //std::cout << "FLOAT: " << number << std::endl;
             this->writeToFile("FLOAT: " + number + "\n");
         }
         else {
-            std::cout << "INT: " << number << std::endl;
+            //std::cout << "INT: " << number << std::endl;
             this->writeToFile("INT: " + number + "\n");
         }
     }
@@ -242,7 +242,7 @@ bool LexicalAnalyzer::analyzeLetter() {
         result = this->errorLine(identifier);
     }
     else if (this->searchKeyword(identifier)) {
-        std::cout << "KEYWORD: " << identifier << std::endl;
+        //std::cout << "KEYWORD: " << identifier << std::endl;
         this->writeToFile("KEYWORD: " + identifier + "\n");
         result = true;
     }
@@ -251,7 +251,7 @@ bool LexicalAnalyzer::analyzeLetter() {
     //    this->writeToFile(identifier + "\n");
     //}
     else {
-        std::cout << "ID: " << identifier << " Scope: " << this->scope <<  std::endl;
+        //std::cout << "ID: " << identifier << " Scope: " << this->scope <<  std::endl;
         this->writeToFile("ID: " + identifier + " Scope: " + INT_TO_STRING(this->scope) + "\n");
         result = true;
         // ADD TO SYMBOL TABLE
@@ -301,17 +301,17 @@ bool LexicalAnalyzer::analyzeSpecialCharacter() {
                 result == true;
             }
             else if (character.length() > 0) {
-                std::cout << character << std::endl;
+                //std::cout << character << std::endl;
                 this->writeToFile(character + "\n");
             }
         }
         else if (this->currentCharacter == '<' | this->currentCharacter == '>' | this->currentCharacter == '=' | this->currentCharacter == '!') {
             peekCharacter = this->peekAtNextCharacter();
             if (peekCharacter == '=') {
-                std::cout << character;
+                //std::cout << character;
                 this->writeToFile(character + "");
                 if (this->moveToNextCharacter()) {
-                    std::cout << this->currentCharacter << std::endl;
+                    //std::cout << this->currentCharacter << std::endl;
                     // So, this code gets the deadSymbol string for some reason
                     //this->writeToFile(this->currentCharacter + "\n");
                     this->writeToFile("=\n");
@@ -321,12 +321,12 @@ bool LexicalAnalyzer::analyzeSpecialCharacter() {
                 result = this->errorLine(character);
             }
             else if (character.length() > 0) {
-                std::cout << character << std::endl;
+                //std::cout << character << std::endl;
                 this->writeToFile(character + "\n");
             }
         }
         else if (character.length() > 0) {
-            std::cout << character << std::endl;
+            //std::cout << character << std::endl;
             this->writeToFile(character + "\n");
         }
         // For Scope Calculations
@@ -384,12 +384,12 @@ bool LexicalAnalyzer::moveToNextline() {
         result = true;
         this->currentLine = temp;
         this->currentLineIndex = 0;
-        std::cout << "INPUT: " << temp << std::endl;
-        this->writeToFile("INPUT: " + temp + "\n");
+        //std::cout << "INPUT: " << temp << std::endl;
+        //this->writeToFile("INPUT: " + temp + "\n");
     }
     else {
         this->currentLine = "";
-        this->currentLineIndex = 10;
+        this->currentLineIndex = -1;
     }
     return result;
 }
@@ -446,7 +446,7 @@ bool LexicalAnalyzer::errorLine(std::string str) {
             endProgram = this->moveToNextCharacter();
         }
     }
-    std::cout << "ERROR: " << remainingLine << std::endl;
-    this->writeToFile("ERROR: " + remainingLine + "\n");
+    //std::cout << "ERROR: " << remainingLine << std::endl;
+    //this->writeToFile("ERROR: " + remainingLine + "\n");
     return endProgram;
 }

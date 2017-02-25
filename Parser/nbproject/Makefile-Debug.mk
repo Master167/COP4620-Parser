@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/LexicalAnalyzer.o \
+	${OBJECTDIR}/Parser.o \
 	${OBJECTDIR}/Symbol.o \
 	${OBJECTDIR}/SymbolTable.o \
 	${OBJECTDIR}/main.o
@@ -69,6 +70,11 @@ ${OBJECTDIR}/LexicalAnalyzer.o: LexicalAnalyzer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++98 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LexicalAnalyzer.o LexicalAnalyzer.cpp
+
+${OBJECTDIR}/Parser.o: Parser.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++98 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Parser.o Parser.cpp
 
 ${OBJECTDIR}/Symbol.o: Symbol.cpp
 	${MKDIR} -p ${OBJECTDIR}
