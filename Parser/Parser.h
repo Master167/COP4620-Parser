@@ -29,6 +29,7 @@ private:
     bool getNextToken();
     bool acceptToken(std::string token);
     void throwBadAcceptToken(std::string badToken, std::string expectedToken);
+    void throwException();
     
     // Grammar Methods
     void program();
