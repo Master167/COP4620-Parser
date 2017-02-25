@@ -447,6 +447,6 @@ bool LexicalAnalyzer::errorLine(std::string str) {
         }
     }
     //std::cout << "ERROR: " << remainingLine << std::endl;
-    //this->writeToFile("ERROR: " + remainingLine + "\n");
+    this->writeToFile("ERROR: " + remainingLine + "\n");
     return endProgram;
 }

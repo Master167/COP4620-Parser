@@ -28,8 +28,8 @@ private:
     // Class Methods
     bool getNextToken();
     bool acceptToken(std::string token);
-    void throwBadAcceptToken(std::string badToken, std::string expectedToken);
-    void throwException();
+    void throwBadAcceptToken(std::string badToken, std::string expectedToken) throw(std::string);
+    void throwException() throw (int);
     
     // Grammar Methods
     void program();
