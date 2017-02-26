@@ -1,0 +1,94 @@
+KEYWORD: int
+ID: gcd Scope: 0
+(
+KEYWORD: int
+ID: u Scope: 0
+,
+KEYWORD: int
+ID: v Scope: 0
+)
+{
+KEYWORD: if
+(
+ID: v Scope: 1
+==
+INT: 0
+)
+KEYWORD: return
+ID: u Scope: 1
+;
+KEYWORD: else
+KEYWORD: return
+ID: gcd Scope: 1
+(
+ID: v Scope: 1
+,
+ID: u Scope: 1
+-
+ID: u Scope: 1
+/
+ID: v Scope: 1
+*
+ID: v Scope: 1
+)
+;
+}
+KEYWORD: void
+ID: main Scope: 0
+(
+KEYWORD: void
+)
+{
+KEYWORD: int
+ID: x Scope: 1
+;
+KEYWORD: int
+ID: y Scope: 1
+;
+ID: x Scope: 1
+=
+ID: input Scope: 1
+(
+)
+;
+ID: y Scope: 1
+=
+ID: input Scope: 1
+(
+)
+;
+ID: output Scope: 1
+(
+ID: gcd Scope: 1
+(
+ID: x Scope: 1
+,
+ID: y Scope: 1
+)
+)
+;
+}
+KEYWORD: float
+ID: add Scope: 0
+(
+KEYWORD: float
+ID: x Scope: 0
+,
+KEYWORD: float
+ID: y Scope: 0
+)
+{
+ID: x Scope: 1
+=
+FLOAT: 1.01
+;
+ID: y Scope: 1
+=
+FLOAT: 1.01
+;
+KEYWORD: return
+ID: x Scope: 1
++
+ID: y Scope: 1
+;
+}
