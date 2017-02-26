@@ -30,6 +30,7 @@ private:
     bool acceptToken(std::string token);
     void throwBadAcceptToken(std::string badToken, std::string expectedToken) throw(std::string);
     void throwException() throw (int);
+    bool searchArray(int arraySize, std::string *array, std::string key);
     
     // Grammar Methods
     void program();

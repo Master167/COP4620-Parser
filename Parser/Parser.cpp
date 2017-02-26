@@ -120,20 +120,73 @@ void Parser::throwException() throw (int) {
     return;
 }
 
+bool Parser::searchArray(int arraySize, std::string *array, std::string key) {
+    bool result = false;
+    // Need to clean the key a tad. To remove text added by LexicalAnalyzer
+    //  -Ex: Remove 'KEYWORD: ' from a keyword
+    std::string temp;
+    std::string compareToken = this->currentToken;
+    std::size_t findResult = compareToken.find("KEYWORD: ", 0);
+    if (findResult != std::string::npos) {
+        compareToken.erase(findResult, 9);
+    }
+    else {
+        findResult = compareToken.find("INT: ", 0);
+        if (findResult != std::string::npos) {
+            compareToken = "int";
+        }
+        else {
+            findResult = compareToken.find("FLOAT: ", 0);
+            if (findResult != std::string::npos) {
+                compareToken = "float";
+            }
+            else {
+                findResult = compareToken.find("ID: ", 0);
+                if (findResult != std::string::npos) {
+                    compareToken = "id";
+                }
+            }
+        }
+    }
+    
+    for (int i = 0; i < arraySize; i++) {
+        temp = array[i];
+        if (temp.compare(key) == 0) {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
 // Grammar Methods
 void Parser::program() {
+    this->declarationList();
     return;
 }
 
 void Parser::declarationList() {
+    this->declaration();
+    this->declarationListPrime();
     return;
 }
 
 void Parser::declarationListPrime() {
+    std::string firstSet[3] = { "int", "float", "void" };
+    if (this->searchArray(3, firstSet, this->currentToken)) {
+        this->declaration();
+        this->declarationListPrime();
+    }
+    else {
+        // Follow set for declaration-list-prime is the end of file
+        return;
+    }
     return;
 }
 
 void Parser::declaration() {
+    std::string firstSet[3] = { "int", "float", "void" };
+    
     return;
 }
 
