@@ -198,42 +198,158 @@ void Parser::declarationListPrime() {
 
 void Parser::declaration() {
     std::string firstSet[3] = { "int", "float", "void" };
-    
+    if (this->searchArray(3, firstSet, this->currentToken)) {
+        this->typeSpecifier();
+        this->acceptToken("id");
+        this->callDeclaration();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::callDeclaration() {
+    std::string idFirst[2] = { ";", "[" };
+    if (this->searchArray(2, idFirst, this->currentToken)) {
+        this->idSpecifier();
+    }
+    else if (this->currentToken.compare("(") == 0) {
+        this->acceptToken("(");
+        this->params();
+        this->acceptToken(")");
+        this->compountStmt();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::idSpecifier() {
+    if (this->currentToken.compare(";") == 0) {
+        this->acceptToken(";");
+    }
+    else if (this->currentToken.compare("[") == 0) {
+        this->acceptToken("[");
+        this->acceptToken("NUM");
+        this->acceptToken("]");
+        this->compountStmt();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::typeSpecifier() {
+    std::string first[1] = { "int" };
+    std::string second[1] = { "float" };
+    std::string third[1] = { "void" };
+    if (this->searchArray(1, first, this->currentToken)) {
+        this->acceptToken("int");
+    }
+    else if (this->searchArray(1, second, this->currentToken)) {
+        this->acceptToken("float");
+    }
+    else if (this->searchArray(1, third, this->currentToken)) {
+        this->acceptToken("void");
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::params() {
+    std::string first[1] = { "int" };
+    std::string second[1] = { "float" };
+    std::string third[1] = { "void" };
+    if (this->searchArray(1, first, this->currentToken)) {
+        this->acceptToken("int");
+        this->acceptToken("id");
+        this->array();
+        this->paramListPrime();
+    }
+    else if (this->searchArray(1, second, this->currentToken)) {
+        this->acceptToken("float");
+        this->acceptToken("id");
+        this->array();
+        this->paramListPrime();
+    }
+    else if (this->searchArray(1, third, this->currentToken)) {
+        this->acceptToken("void");
+        this->paramList();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::paramList() {
+    std::string first[1] = { "id" };
+    if (this->searchArray(1, first, this->currentToken)) {
+        this->acceptToken("id");
+        this->array();
+        this->paramListPrime();
+    }
+    else if (this->currentToken.compare(")")) {
+        // Go to empty
+        return;
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::paramListPrime() {
+    if (this->currentToken.compare(",") == 0) {
+        this->acceptToken(",");
+        this->param();
+        this->paramListPrime();
+    }
+    else if (this->currentToken.compare(")") == 0) {
+        // Go to empty
+        return;
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::param() {
+    std::string first[3] = { "int", "float", "void" };
+    if (this->searchArray(3, first, this->currentToken)) {
+        this->typeSpecifier();
+        this->acceptToken("id");
+        this->array();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::array() {
+    std::string follow[2] = { ",", ")" };
+    if (this->currentToken.compare("[") == 0) {
+        this->acceptToken("[");
+        this->acceptToken("]");
+    }
+    else if (this->searchArray(2, follow, this->currentToken)) {
+        // Go to empty
+        return;
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
+// Pause here and parse
 void Parser::compountStmt() {
     return;
 }
