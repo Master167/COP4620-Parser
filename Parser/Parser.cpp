@@ -55,8 +55,18 @@ bool Parser::acceptToken(std::string token) {
     bool result = true;
     std::size_t findResult;
     std::string keyword;
-    //search.compare(this->keywords[i]) == 0
-    if (this->currentToken.compare(token) == 0) {
+    
+    if (token.compare("id") == 0) {
+        findResult = this->currentToken.find("ID:");
+        if (findResult != std::string::npos) {
+            result = this->getNextToken();
+        }
+        else {
+            this->throwBadAcceptToken(this->currentToken, token);
+            result = false;
+        }
+    }
+    else if (this->currentToken.compare(token) == 0) {
         result = this->getNextToken();
     }
     else {
@@ -153,7 +163,7 @@ bool Parser::searchArray(int arraySize, std::string *array, std::string key) {
     
     for (int i = 0; i < arraySize; i++) {
         temp = array[i];
-        if (temp.compare(key) == 0) {
+        if (temp.compare(compareToken) == 0) {
             result = true;
             break;
         }
@@ -180,7 +190,7 @@ void Parser::declarationListPrime() {
         this->declarationListPrime();
     }
     else {
-        // Follow set for declaration-list-prime is the end of file
+        // Follow set for declaration-list-prime is the end of file and it can go empty
         return;
     }
     return;
