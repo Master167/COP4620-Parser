@@ -28,13 +28,16 @@ int main(int argc, char** argv) {
                 continueCompile = lexy->scanFile(symTab);
                 if (continueCompile) {
                     // Transition from input to MY temp file
-                    std::string tempFilename = filename.append(".temp");
-                    std::fstream tempFilestream(tempFilename.c_str());
+                    filename.append(".temp"); // .append() adds to the same string in memory and returns a point to that string
+                    std::fstream tempFilestream(filename.c_str());
                     inputFile.flush();
                     inputFile.close();
                     Parser* percy = new Parser(tempFilestream);
                     percy->parseFile();
                     delete percy;
+                    tempFilestream.flush();
+                    tempFilestream.seekg(0, std::ios::beg);
+                    tempFilestream.close();
                 }
                 //symTab->printTable();
             }
@@ -43,7 +46,7 @@ int main(int argc, char** argv) {
             }
             delete lexy;
             delete symTab;
-            remove(filename.append(".temp").c_str());
+            remove(filename.c_str());
         }
         else {
             std::cout << "Bad Input file" << std::endl;

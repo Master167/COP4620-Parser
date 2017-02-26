@@ -18,6 +18,7 @@ bool Parser::parseFile() {
             this->program();
         }
         catch (int e) {
+            std::cout << "Int Exception thrown" << std::endl;
             result = false;
         }
         catch (std::string e) {
@@ -26,6 +27,7 @@ bool Parser::parseFile() {
         }
     }
     else {
+        std::cout << "Unable to pull first token" << std::endl;
         result = false;
     }
     return result;
