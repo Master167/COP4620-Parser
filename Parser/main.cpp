@@ -33,11 +33,22 @@ int main(int argc, char** argv) {
                     inputFile.flush();
                     inputFile.close();
                     Parser* percy = new Parser(tempFilestream);
-                    percy->parseFile();
+                    continueCompile = percy->parseFile();
                     delete percy;
                     tempFilestream.flush();
                     tempFilestream.seekg(0, std::ios::beg);
+                    
+                    if (continueCompile) {
+                        std::cout << "ACCEPT" << std::endl;
+                    }
+                    else {
+                        std::cout << "REJECT" << std::endl;
+                    }
+                    
                     tempFilestream.close();
+                }
+                else {
+                    std::cout << "REJECT" << std::endl;
                 }
                 //symTab->printTable();
             }
