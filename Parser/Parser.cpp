@@ -351,53 +351,194 @@ void Parser::array() {
 
 // Pause here and parse
 void Parser::compountStmt() {
+    if (this->currentToken.compare("{") == 0) {
+        this->acceptToken("{");
+        this->localDeclarations();
+        this->statementList();
+        this->acceptToken("}");
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::localDeclarations() {
+    std::string first[3] = { "int", "float", "void" };
+    std::string follow[9] = { "id", "(", "num", ";", "{", "if", "while", "return", "}" };
+    if (this->searchArray(3, first, this->currentToken)) {
+        this->localDeclarationsPrime();
+    }
+    else if (this->searchArray(9, follow, this->currentToken)) {
+        // Go to empty
+        return;
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::localDeclarationsPrime() {
+    std::string first[3] = { "int", "float", "void" };
+    std::string follow[9] = { "id", "(", "num", ";", "{", "if", "while", "return", "}" };
+    if (this->searchArray(3, first, this->currentToken)) {
+        this->typeSpecifier();
+        this->acceptToken("id");
+        this->idSpecifier();
+        this->localDeclarationsPrime();
+    }
+    else if (this->searchArray(9, follow, this->currentToken)) {
+        // Go to empty
+        return;
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::statementList() {
+    std::string first[8] = { "id", "(", "num", ";", "{", "if", "while", "return" };
+    if (this->searchArray(8, first, this->currentToken)) {
+        this->statementListPrime();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::statementListPrime() {
+    std::string first[8] = { "id", "(", "num", ";", "{", "if", "while", "return" };
+    if (this->searchArray(8, first, this->currentToken)) {
+        this->statement();
+        this->statementListPrime();
+    }
+    else if (this->currentToken.compare("}") == 0) {
+        // Go to empty
+        return;
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::statement() {
+    std::string first[4] = { "id", "(", "num", ";" };
+    std::string second[1] = { "{" };
+    std::string third[1] = { "if" };
+    std::string fourth[1] = { "while" };
+    std::string fifth[1] = { "return" };
+    if (this->searchArray(4, first, this->currentToken)) {
+        this->expressionStmt();
+    }
+    else if (this->searchArray(1, second, this->currentToken)) {
+        this->compountStmt();
+    }
+    else if (this->searchArray(1, third, this->currentToken)) {
+        this->selectionStmt();
+    }
+    else if (this->searchArray(1, fourth, this->currentToken)) {
+        this->iterationStmt();
+    }
+    else if (this->searchArray(1, fifth, this->currentToken)) {
+        this->returnStmt();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::expressionStmt() {
+    std::string first[3] = { "id", "(", "num" };
+    if (this->searchArray(3, first, this->currentToken)) {
+        this->expression();
+        this->acceptToken(";");
+    }
+    else if (this->currentToken.compare(";") == 0) {
+        this->acceptToken(";");
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::selectionStmt() {
+    std::string first[1] = { "if" };
+    if (this->searchArray(1, first, this->currentToken)) {
+        this->acceptToken("if");
+        this->acceptToken("(");
+        this->expression();
+        this->acceptToken(")");
+        this->statement();
+        this->danglingElse();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::danglingElse() {
+    std::string first[1] = { "else" };
+    std::string follow[9] = { "id", "(", "num", ";", "{", "if", "while", "return", "}" };
+    if (this->searchArray(1, first, this->currentToken)) {
+        this->acceptToken("else");
+        this->statement();
+    }
+    else if (this->searchArray(9, follow, this->currentToken)) {
+        // Go to empty
+        return;
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::iterationStmt() {
+    std::string first[1] = { "while" };
+    if (this->searchArray(1, first, this->currentToken)) {
+        this->acceptToken("while");
+        this->acceptToken("(");
+        this->expression();
+        this->acceptToken(")");
+        this->statement();
+    }
     return;
 }
 
 void Parser::returnStmt() {
+    std::string first[1] = { "return" };
+    if (this->searchArray(1, first, this->currentToken)) {
+        this->acceptToken("return");
+        this->returnStmtEnd();
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::returnStmtEnd() {
+    std::string first[3] = { "id", "(", "num" };
+    if (this->searchArray(1, first, this->currentToken)) {
+        this->expression();
+        this->acceptToken(";");
+    }
+    else if (this->currentToken.compare(";") == 0) {
+        this->acceptToken(";");
+    }
+    else {
+        this->throwException();
+    }
     return;
 }
-
+// Pause Here for the night
 void Parser::expression() {
     return;
 }
