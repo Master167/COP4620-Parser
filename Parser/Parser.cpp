@@ -538,8 +538,9 @@ void Parser::returnStmtEnd() {
     }
     return;
 }
-// Pause Here for the night
+
 void Parser::expression() {
+    std::string first[1] = { "id" };
     return;
 }
 
