@@ -25,6 +25,7 @@ private:
     // Class Variables
     std::string currentToken;
     std::fstream& filestream;
+    int currentLine;
     // Class Methods
     bool getNextToken();
     bool acceptToken(std::string token);
@@ -68,11 +69,15 @@ private:
     void addop();
     void term();
     void termPrime();
+    void factor();
     void mulop();
     void varCall();
     void args();
     void argList();
     void argListPrime();
+    
+    // Cheat methods
+    bool huntForComma();
 
 };
 

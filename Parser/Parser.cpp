@@ -9,6 +9,7 @@
 
 
 Parser::Parser(std::fstream& inputFile) : filestream(inputFile) {
+    this->currentLine = -1;
 }
 
 bool Parser::parseFile() {
@@ -19,6 +20,7 @@ bool Parser::parseFile() {
         }
         catch (int e) {
             std::cout << "Int Exception thrown" << std::endl;
+            std::cout << "CurrentToken: " << this->currentToken << std::endl;
             result = false;
         }
         catch (std::string e) {
@@ -37,6 +39,7 @@ bool Parser::getNextToken() {
     bool result = false;
     std::string temp;
     while (temp.length() <= 0) {
+        this->currentLine++;
         if (!std::getline(this->filestream, temp)) {
             break;
         }
@@ -44,7 +47,6 @@ bool Parser::getNextToken() {
     if (temp.length() > 0) {
         result = true;
         this->currentToken = temp;
-        std::cout << temp << std::endl;
     }
     else {
         this->currentToken = "";
@@ -572,7 +574,23 @@ void Parser::variable() {
     // So we have a first set conflict here. Both sides have ( in the first set. I'm not fixing it at this point
     if (this->searchArray(16, first, this->currentToken)) {
         this->varArray();
-        this->variableFactor();
+        if (this->currentToken.compare("(") == 0) {
+            //std::cout << "Heres your first set problem" << std::endl;
+            if (this->huntForComma()) {
+                this->acceptToken("(");
+                this->args();
+                this->acceptToken(")");
+                this->termPrime();
+                this->additiveExpressionPrime();
+                this->relopExpression();
+            }
+            else {
+                this->variableFactor();
+            }
+        }
+        else {
+            this->variableFactor();
+        }
     }
     else if (this->currentToken.compare("(") == 0) {
         this->acceptToken("(");
@@ -743,20 +761,44 @@ void Parser::term() {
         this->acceptToken("num");
         this->termPrime();
     }
+    else {
+        this->throwException();
+    }
     return;
 }
 
 void Parser::termPrime() {
-    std::string first[3] = { "(", "id", "num" };
-    std::string follow[16] = { "<=", "<", ">", ">=", "==", "!=", "+", "-", ";", ")", "]", ",", "+", "-", "*", "/" };
-    if (this->searchArray(3, first, this->currentToken)) {
-        this->term();
+    std::string first[2] = { "*", "/" };
+    std::string follow[16] = { "<=", "<", ">", ">=", "==", "!=", "+", "-", ";", ")", "]", ",", "+", "-" };
+    if (this->searchArray(2, first, this->currentToken)) {
         this->mulop();
+        this->factor();
         this->termPrime();
     }
     else if (this->searchArray(16, follow, this->currentToken)) {
         // Go to Empty
         return;
+    }
+    else {
+        this->throwException();
+    }
+    return;
+}
+
+void Parser::factor() {
+    std::string second[1] = { "id" };
+    std::string third[1] = { "num" };
+    if (this->currentToken.compare("(") == 0) {
+        this->acceptToken("(");
+        this->expression();
+        this->acceptToken(")");
+    }
+    else if (this->searchArray(1, second, this->currentToken)) {
+        this->acceptToken("id");
+        this->varCall();
+    }
+    else if (this->searchArray(1, third, this->currentToken)) {
+        this->acceptToken("num");
     }
     else {
         this->throwException();
@@ -837,4 +879,41 @@ void Parser::argListPrime() {
         this->throwException();
     }
     return;
+}
+
+bool Parser::huntForComma() {
+    std::cout << "Before: " << this->currentToken << std::endl;
+    int previousLine = this->currentLine;
+    bool foundComma = false;
+    bool searching = false;
+    int skipRight = 0;
+    while (searching) {
+        if (!this->getNextToken()) {
+            break;
+        }
+        else if (this->currentToken.compare("(") == 0) {
+            skipRight++;
+        }
+        else if (this->currentToken.compare(")") == 0) {
+            skipRight--;
+            if (skipRight == 0) {
+                searching = false;
+            }
+        }
+        else if (this->currentToken.compare(",") == 0) {
+            foundComma = true;
+        }
+        // Go find comma
+    }
+    
+    this->filestream.clear();
+    this->filestream.seekg(0, std::ios::beg);
+    this->currentLine = -1;
+    while (this->currentLine != previousLine) {
+        if (!this->getNextToken()) {
+            break;
+        }
+    }
+    std::cout << "After: " << this->currentToken << std::endl;
+    return foundComma;
 }
