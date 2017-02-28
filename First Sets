@@ -34,6 +34,7 @@ additive-expression-prime:	+ - empty
 addop:	+ -
 term:	( ID NUM
 term-prime:	( ID NUM empty
+factor: ( ID NUM
 mulop:	* /
 var-call:	( [ empty
 args:	ID ( NUM empty

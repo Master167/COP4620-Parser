@@ -40,7 +40,8 @@ additive-expression 		->	( expression ) term-prime additive-expression-prime | I
 additive-expression-prime	->	addop term additive-expression-prime | empty
 addop						->	+ | -
 term						->	( expression ) term-prime | ID var-call term-prime | NUM term-prime
-term-prime					->	term mulop term-prime | empty
+term-prime					->	mulop factor term-prime | empty
+factor						->	( expression ) | ID var-call | NUM
 mulop						->	* | /
 var-call					->	( args ) | var-array
 args						->	arg-list | empty

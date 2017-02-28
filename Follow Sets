@@ -34,7 +34,8 @@ additive-expression-prime:	<= < > >= == != ; ) ] ,
 addop:	( ID NUM + - * / <= < > >= == != ; ) ] ,
 term:	+ - * / <= < > >= == != ; ) ] ,
 term-prime:	<= < > >= == != + - ; ) ] , + - * /
-mulop:	( ID NUM <= < > >= == != + - ; ) ] , + - * /
+factor: ( ID NUM <= < > >= == != + - ; ) ] , + - * /
+mulop:	( ID NUM
 var-call:	+ - ( ID NUM ; ) ] , * /
 args:	)
 arg-list:	)
