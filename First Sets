@@ -36,6 +36,6 @@ term:	( ID NUM
 term-prime:	( ID NUM empty
 mulop:	* /
 var-call:	( [ empty
-args:	ID ( NUM
+args:	ID ( NUM empty
 arg-list:	ID ( NUM
 arg-list-prime:	, empty
