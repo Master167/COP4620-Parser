@@ -24,8 +24,8 @@ iteration-stmt:	WHILE
 return-stmt:	RETURN
 return-stmt-end:	; ID ( NUM
 expression:	ID ( NUM
-variable:	[ = ( ID NUM + - <= < > >= == != empty
-variable-factor:	= ( ID NUM + - <= < > >= == != empty
+variable:	[ = * / + - <= < > >= == != empty (
+variable-factor:	= * / + - <= < > >= == != empty
 var-array:	[ empty
 relop-expression:	<= < > >= == != empty
 relop:	<= < > >= == !=
@@ -33,7 +33,7 @@ additive-expression:	( ID NUM
 additive-expression-prime:	+ - empty
 addop:	+ -
 term:	( ID NUM
-term-prime:	( ID NUM empty
+term-prime:	* / empty
 factor: ( ID NUM
 mulop:	* /
 var-call:	( [ empty
