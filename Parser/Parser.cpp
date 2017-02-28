@@ -44,6 +44,7 @@ bool Parser::getNextToken() {
     if (temp.length() > 0) {
         result = true;
         this->currentToken = temp;
+        std::cout << temp << std::endl;
     }
     else {
         this->currentToken = "";
@@ -66,12 +67,31 @@ bool Parser::acceptToken(std::string token) {
             result = false;
         }
     }
+    else if (token.compare("num") == 0) {
+        // Check if float
+        findResult = this->currentToken.find("FLOAT");
+        if (findResult == std::string::npos) {
+            // Ok, FLOAT is not in the currentToken
+            findResult = this->currentToken.find("INT");
+            if (findResult == std::string::npos) {
+                // INT is not in the currentToken. This is not a NUM
+                this->throwBadAcceptToken(this->currentToken, token);
+                result = false;
+            }
+            else {
+                result = this->getNextToken();
+            }
+        }
+        else {
+            result = this->getNextToken();
+        }
+    }
     else if (this->currentToken.compare(token) == 0) {
         result = this->getNextToken();
     }
     else {
         /*
-         * Check for NUM, ID, KEYWORD, and ERROR
+         * Check for KEYWORD
          */
         findResult = this->currentToken.find(token);
         if (findResult != std::string::npos) {
@@ -90,25 +110,6 @@ bool Parser::acceptToken(std::string token) {
                     // Not the same keyword
                     this->throwBadAcceptToken(this->currentToken, token);
                     result = false;
-                }
-            }
-            else {
-                // Not a keyword, could be a NUM
-                findResult = this->currentToken.find("FLOAT");
-                if (findResult == std::string::npos) {
-                    // Ok, FLOAT is not in the currentToken
-                    findResult = this->currentToken.find("INT");
-                    if (findResult == std::string::npos) {
-                        // INT is not in the currentToken. This is not a NUM
-                        this->throwBadAcceptToken(this->currentToken, token);
-                        result = false;
-                    }
-                    else {
-                        result = this->getNextToken();
-                    }
-                }
-                else {
-                    result = this->getNextToken();
                 }
             }
         }
@@ -145,12 +146,12 @@ bool Parser::searchArray(int arraySize, std::string *array, std::string key) {
     else {
         findResult = compareToken.find("INT: ", 0);
         if (findResult != std::string::npos) {
-            compareToken = "int";
+            compareToken = "num";
         }
         else {
             findResult = compareToken.find("FLOAT: ", 0);
             if (findResult != std::string::npos) {
-                compareToken = "float";
+                compareToken = "num";
             }
             else {
                 findResult = compareToken.find("ID: ", 0);
@@ -232,7 +233,7 @@ void Parser::idSpecifier() {
     }
     else if (this->currentToken.compare("[") == 0) {
         this->acceptToken("[");
-        this->acceptToken("NUM");
+        this->acceptToken("num");
         this->acceptToken("]");
         this->compountStmt();
     }
@@ -569,7 +570,7 @@ void Parser::expression() {
 void Parser::variable() {
     std::string first[12] = { "[", "=", "id", "num", "+", "-", "<=", "<", ">", ">=", "==", "!=" };
     // So we have a first set conflict here. Both sides have ( in the first set. I'm not fixing it at this point
-    if (this->searchArray(2, first, this->currentToken)) {
+    if (this->searchArray(12, first, this->currentToken)) {
         this->varArray();
         this->variableFactor();
     }
@@ -590,7 +591,7 @@ void Parser::variable() {
 void Parser::variableFactor() {
     std::string second[11] = { "(", "id", "num", "+", "-", "<=", "<", ">", ">=", "==", "!=" };
     std::string follow[4] = { ";", ")", "]", "," };
-    if (this->currentToken.compare("=")) {
+    if (this->currentToken.compare("=") == 0) {
         this->acceptToken("=");
         this->expression();
     }
