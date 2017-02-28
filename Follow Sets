@@ -2,40 +2,40 @@
 program:	$
 declaration-list:	$
 declaration-list-prime:	$
-declaration:	INT FLOAT VOID $
-call-declaration:	INT FLOAT VOID $
-id-specifier:	INT FLOAT VOID $ ID ( NUM ; { IF WHILE RETURN }
+declaration:	INT FLOAT VOID empty
+call-declaration:	INT FLOAT VOID empty
+id-specifier:	INT FLOAT VOID empty
 type-specifier:	ID
 params:	)
 param-list:	)
 param-list-prime:	)
-param:	, )
-array:	, )
-compound-stmt:	INT FLOAT VOID $ ID ( NUM ; { IF WHILE RETURN ELSE }
-local-declarations:	ID ( NUM ; { IF WHILE RETURN }
-local-declaration-prime:	ID ( NUM ; { IF WHILE RETURN }
+param:	, empty
+array:	, empty
+compound-stmt:	INT FLOAT VOID ID ( NUM ; { IF WHILE RETURN ELSE empty
+local-declarations:	ID ( NUM ; { IF WHILE RETURN empty
+local-declaration-prime:	ID ( NUM ; { IF WHILE RETURN empty
 statement-list:	}
 statement-list-prime:	}
-statement:	ID ( NUM ; { IF WHILE RETURN ELSE }
-expression-stmt:	ID ( NUM ; { IF WHILE RETURN ELSE }
-selection-stmt:	ID ( NUM ; { IF WHILE RETURN ELSE }
-dangling-else:	ID ( NUM ; { IF WHILE RETURN ELSE }
-iteration-stmt:	ID ( NUM ; { IF WHILE RETURN ELSE }
-return-stmt:	ID ( NUM ; { IF WHILE RETURN ELSE }
-return-stmt-end:	ID ( NUM ; { IF WHILE RETURN ELSE }
-expression:	; ) ] ,
-variable:	; ) ] ,
-variable-factor:	; ) ] ,
-var-array:	= ( ID NUM + - <= < > >= == != ; ) ] , * /
-relop-expression:	; ) ] ,
-relop:	( ID NUM ; ) ] ,
-additive-expression:	; ) ] ,
-additive-expression-prime:	<= < > >= == != ; ) ] ,
-addop:	( ID NUM + - * / <= < > >= == != ; ) ] ,
-term:	+ - * / <= < > >= == != ; ) ] ,
-term-prime:	<= < > >= == != + - ; ) ] , + - * /
-mulop:	( ID NUM <= < > >= == != + - ; ) ] , + - * /
-var-call:	+ - ( ID NUM ; ) ] , * /
+statement:	ID ( NUM ; { IF WHILE RETURN ELSE empty
+expression-stmt:	ID ( NUM ; { IF WHILE RETURN ELSE empty
+selection-stmt:	ID ( NUM ; { IF WHILE RETURN ELSE empty
+dangling-else:	ID ( NUM ; { IF WHILE RETURN ELSE empty
+iteration-stmt:	ID ( NUM ; { IF WHILE RETURN ELSE empty
+return-stmt:	ID ( NUM ; { IF WHILE RETURN ELSE empty
+return-stmt-end:	ID ( NUM ; { IF WHILE RETURN ELSE empty
+expression:	; ) ] , empty
+variable:	; ) ] , empty
+variable-factor:	; ) ] , empty
+var-array:	= ( ID NUM + - <= < > >= == != ; ) ] , * / empty
+relop-expression:	; ) ] , empty
+relop:	( ID NUM
+additive-expression:	; ) ] , empty
+additive-expression-prime:	<= < > >= == != ; ) ] , empty
+addop:	( ID NUM
+term:	+ - * / empty
+term-prime:	+ - * / empty
+mulop:	( ID NUM empty
+var-call:	( ID NUM empty
 args:	)
 arg-list:	)
 arg-list-prime:	)
