@@ -568,9 +568,9 @@ void Parser::expression() {
 }
 
 void Parser::variable() {
-    std::string first[12] = { "[", "=", "id", "num", "+", "-", "<=", "<", ">", ">=", "==", "!=" };
+    std::string first[16] = { "[", "=", "id", "num", "+", "-", "<=", "<", ">", ">=", "==", "!=", ";", ")", "]", "," };
     // So we have a first set conflict here. Both sides have ( in the first set. I'm not fixing it at this point
-    if (this->searchArray(12, first, this->currentToken)) {
+    if (this->searchArray(16, first, this->currentToken)) {
         this->varArray();
         this->variableFactor();
     }
