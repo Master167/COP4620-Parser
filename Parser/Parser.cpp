@@ -18,12 +18,12 @@ bool Parser::parseFile() {
             this->program();
         }
         catch (int e) {
-            //std::cout << "Int Exception thrown" << std::endl;
-            //std::cout << "CurrentToken: " << this->currentToken << std::endl;
+            std::cout << "Int Exception thrown" << std::endl;
+            std::cout << "CurrentToken: " << this->currentToken << std::endl;
             result = false;
         }
         catch (std::string e) {
-            //std::cout << e << std::endl;
+            std::cout << e << std::endl;
             result = false;
         }
     }
