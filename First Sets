@@ -24,7 +24,7 @@ iteration-stmt:	WHILE
 return-stmt:	RETURN
 return-stmt-end:	; ID ( NUM
 expression:	ID ( NUM
-variable:	[ = * / + - <= < > >= == != empty (
+variable:	[ = * / + - <= < > >= == != ( empty
 variable-factor:	= * / + - <= < > >= == != empty
 var-array:	[ empty
 relop-expression:	<= < > >= == != empty

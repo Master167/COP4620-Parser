@@ -26,17 +26,17 @@ return-stmt-end:	ID ( NUM ; { IF WHILE RETURN ELSE }
 expression:	; ) ] ,
 variable:	; ) ] ,
 variable-factor:	; ) ] ,
-var-array:	= ( ID NUM + - <= < > >= == != ; ) ] , * /
+var-array:	= * / + - <= < > >= == != ; ) ] ,
 relop-expression:	; ) ] ,
 relop:	( ID NUM ; ) ] ,
 additive-expression:	; ) ] ,
 additive-expression-prime:	<= < > >= == != ; ) ] ,
-addop:	( ID NUM + - * / <= < > >= == != ; ) ] ,
-term:	+ - * / <= < > >= == != ; ) ] ,
-term-prime:	<= < > >= == != + - ; ) ] , + - * /
-factor: ( ID NUM <= < > >= == != + - ; ) ] , + - * /
+addop:	+ - <= < > >= == != ; ) ] ,
+term:	+ - <= < > >= == != ; ) ] ,
+term-prime:	<= < > >= == != + - ; ) ] ,
+factor: * / <= < > >= == != + - ; ) ] ,
 mulop:	( ID NUM
-var-call:	+ - ( ID NUM ; ) ] , * /
+var-call:	+ - * / <= < > >= == != ; ) ] ,
 args:	)
 arg-list:	)
 arg-list-prime:	)
