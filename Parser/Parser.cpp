@@ -9,7 +9,6 @@
 
 
 Parser::Parser(std::fstream& inputFile) : filestream(inputFile) {
-    this->currentLine = -1;
 }
 
 bool Parser::parseFile() {
@@ -19,12 +18,12 @@ bool Parser::parseFile() {
             this->program();
         }
         catch (int e) {
-            std::cout << "Int Exception thrown" << std::endl;
-            std::cout << "CurrentToken: " << this->currentToken << std::endl;
+            //std::cout << "Int Exception thrown" << std::endl;
+            //std::cout << "CurrentToken: " << this->currentToken << std::endl;
             result = false;
         }
         catch (std::string e) {
-            std::cout << e << std::endl;
+            //std::cout << e << std::endl;
             result = false;
         }
     }
@@ -36,10 +35,12 @@ bool Parser::parseFile() {
 }
 
 bool Parser::getNextToken() {
+    //if (this->currentLine > 0) {
+    //    std::cout << "Accepted: " << this->currentToken << std::endl;
+    //}
     bool result = false;
     std::string temp;
     while (temp.length() <= 0) {
-        this->currentLine++;
         if (!std::getline(this->filestream, temp)) {
             break;
         }
@@ -237,7 +238,7 @@ void Parser::idSpecifier() {
         this->acceptToken("[");
         this->acceptToken("num");
         this->acceptToken("]");
-        this->compountStmt();
+        this->acceptToken(";");
     }
     else {
         this->throwException();
@@ -352,7 +353,6 @@ void Parser::array() {
     return;
 }
 
-// Pause here and parse
 void Parser::compountStmt() {
     if (this->currentToken.compare("{") == 0) {
         this->acceptToken("{");
@@ -405,6 +405,10 @@ void Parser::statementList() {
     std::string first[8] = { "id", "(", "num", ";", "{", "if", "while", "return" };
     if (this->searchArray(8, first, this->currentToken)) {
         this->statementListPrime();
+    }
+    else if (this->currentToken.compare("}") == 0) {
+        // Go to empty
+        return;
     }
     else {
         this->throwException();
@@ -512,6 +516,9 @@ void Parser::iterationStmt() {
         this->acceptToken(")");
         this->statement();
     }
+    else {
+        this->throwException();
+    }
     return;
 }
 
@@ -570,27 +577,11 @@ void Parser::expression() {
 }
 
 void Parser::variable() {
-    std::string first[16] = { "[", "=", "id", "num", "+", "-", "<=", "<", ">", ">=", "==", "!=", ";", ")", "]", "," };
-    // So we have a first set conflict here. Both sides have ( in the first set. I'm not fixing it at this point
-    if (this->searchArray(16, first, this->currentToken)) {
+    std::string first[12] = { "[", "=", "*", "/", "+", "-", "<=", "<", ">", ">=", "==", "!=" };
+    std::string follow[4] = { ";", ")", "]", "," };
+    if (this->searchArray(12, first, this->currentToken)) {
         this->varArray();
-        if (this->currentToken.compare("(") == 0) {
-            //std::cout << "Heres your first set problem" << std::endl;
-            if (this->huntForComma()) {
-                this->acceptToken("(");
-                this->args();
-                this->acceptToken(")");
-                this->termPrime();
-                this->additiveExpressionPrime();
-                this->relopExpression();
-            }
-            else {
-                this->variableFactor();
-            }
-        }
-        else {
-            this->variableFactor();
-        }
+        this->variableFactor();
     }
     else if (this->currentToken.compare("(") == 0) {
         this->acceptToken("(");
@@ -600,6 +591,10 @@ void Parser::variable() {
         this->additiveExpressionPrime();
         this->relopExpression();
     }
+    else if (this->searchArray(4, follow, this->currentToken)) {
+        this->varArray();
+        this->variableFactor();
+    }
     else {
         this->throwException();
     }
@@ -607,13 +602,13 @@ void Parser::variable() {
 }
 
 void Parser::variableFactor() {
-    std::string second[11] = { "(", "id", "num", "+", "-", "<=", "<", ">", ">=", "==", "!=" };
+    std::string second[10] = { "*", "/", "+", "-", "<=", "<", ">", ">=", "==", "!=" };
     std::string follow[4] = { ";", ")", "]", "," };
     if (this->currentToken.compare("=") == 0) {
         this->acceptToken("=");
         this->expression();
     }
-    else if (this->searchArray(11, second, this->currentToken)) {
+    else if (this->searchArray(10, second, this->currentToken)) {
         this->termPrime();
         this->additiveExpressionPrime();
         this->relopExpression();
@@ -630,13 +625,13 @@ void Parser::variableFactor() {
 }
 
 void Parser::varArray() {
-    std::string follow[18] = { "=", "(", "id","num", "+", "-", "<=", "<", ">", ">=", "==", "!=", ";", ")", "]", ",", "*", "/" };
+    std::string follow[15] = { "=", "*", "/", "+", "-", "<=", "<", ">", ">=", "==", "!=", ";", ")", "]", "," };
     if (this->currentToken.compare("[") == 0) {
         this->acceptToken("[");
         this->expression();
         this->acceptToken("]");
     }
-    else if (this->searchArray(18, follow, this->currentToken)) {
+    else if (this->searchArray(15, follow, this->currentToken)) {
         // Go to Empty
         return;
     }
@@ -709,6 +704,9 @@ void Parser::additiveExpression() {
         this->termPrime();
         this->additiveExpressionPrime();
     }
+    else {
+        this->throwException();
+    }
     return;
 }
 
@@ -718,7 +716,7 @@ void Parser::additiveExpressionPrime() {
     if (this->searchArray(2, first, this->currentToken)) {
         this->addop();
         this->term();
-        this->additiveExpression();
+        this->additiveExpressionPrime();
     }
     else if (this->searchArray(10, follow, this->currentToken)) {
         // Go to empty
@@ -769,13 +767,13 @@ void Parser::term() {
 
 void Parser::termPrime() {
     std::string first[2] = { "*", "/" };
-    std::string follow[16] = { "<=", "<", ">", ">=", "==", "!=", "+", "-", ";", ")", "]", ",", "+", "-" };
+    std::string follow[12] = { "<=", "<", ">", ">=", "==", "!=", "+", "-", ";", ")", "]", "," };
     if (this->searchArray(2, first, this->currentToken)) {
         this->mulop();
         this->factor();
         this->termPrime();
     }
-    else if (this->searchArray(16, follow, this->currentToken)) {
+    else if (this->searchArray(12, follow, this->currentToken)) {
         // Go to Empty
         return;
     }
@@ -820,7 +818,7 @@ void Parser::mulop() {
 }
 
 void Parser::varCall() {
-    std::string follow[11] = { "+", "-", "(", "id", "num", ";", ")", "]", ",", "*", "/"};
+    std::string follow[14] = { "+", "-", "*", "/", "<=", "<", ">", ">=", "==", "!=", ";", ")", "]", "," };
     if (this->currentToken.compare("(") == 0) {
         this->acceptToken("(");
         this->args();
@@ -829,7 +827,7 @@ void Parser::varCall() {
     else if (this->currentToken.compare("[") == 0) {
         this->varArray();
     }
-    else if (this->searchArray(11, follow, this->currentToken)) {
+    else if (this->searchArray(14, follow, this->currentToken)) {
         this->varArray();
     }
     else {
@@ -879,41 +877,4 @@ void Parser::argListPrime() {
         this->throwException();
     }
     return;
-}
-
-bool Parser::huntForComma() {
-    std::cout << "Before: " << this->currentToken << std::endl;
-    int previousLine = this->currentLine;
-    bool foundComma = false;
-    bool searching = false;
-    int skipRight = 0;
-    while (searching) {
-        if (!this->getNextToken()) {
-            break;
-        }
-        else if (this->currentToken.compare("(") == 0) {
-            skipRight++;
-        }
-        else if (this->currentToken.compare(")") == 0) {
-            skipRight--;
-            if (skipRight == 0) {
-                searching = false;
-            }
-        }
-        else if (this->currentToken.compare(",") == 0) {
-            foundComma = true;
-        }
-        // Go find comma
-    }
-    
-    this->filestream.clear();
-    this->filestream.seekg(0, std::ios::beg);
-    this->currentLine = -1;
-    while (this->currentLine != previousLine) {
-        if (!this->getNextToken()) {
-            break;
-        }
-    }
-    std::cout << "After: " << this->currentToken << std::endl;
-    return foundComma;
 }

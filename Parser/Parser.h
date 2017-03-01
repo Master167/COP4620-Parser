@@ -25,7 +25,6 @@ private:
     // Class Variables
     std::string currentToken;
     std::fstream& filestream;
-    int currentLine;
     // Class Methods
     bool getNextToken();
     bool acceptToken(std::string token);
@@ -75,10 +74,6 @@ private:
     void args();
     void argList();
     void argListPrime();
-    
-    // Cheat methods
-    bool huntForComma();
-
 };
 
 #endif /* PARSER_H */
