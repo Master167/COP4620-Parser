@@ -536,7 +536,7 @@ void Parser::returnStmt() {
 
 void Parser::returnStmtEnd() {
     std::string first[3] = { "id", "(", "num" };
-    if (this->searchArray(1, first, this->currentToken)) {
+    if (this->searchArray(3, first, this->currentToken)) {
         this->expression();
         this->acceptToken(";");
     }
